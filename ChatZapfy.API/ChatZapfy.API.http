@@ -1,0 +1,6 @@
+@ChatZapfy.API_HostAddress = http://localhost:5128
+
+GET {{ChatZapfy.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

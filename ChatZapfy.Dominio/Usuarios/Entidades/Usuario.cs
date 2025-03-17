@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AplicativoTarefa.Dominio.Execoes;
+using ChatZapfy.Dominio.ConversasUsuarios.Entidades;
 
 namespace ChatZapfy.Dominio.Usuarios.Entidades
 {
@@ -13,6 +14,8 @@ namespace ChatZapfy.Dominio.Usuarios.Entidades
         public virtual string Email { get; protected set; }
         public virtual string Senha { get; protected set; }
         public virtual DateTime DataInclusao { get; protected set; }
+        public virtual IList<ConversaUsuario> ConversasUsuarios { get; set; } = new List<ConversaUsuario>();
+
 
         protected Usuario()
         {

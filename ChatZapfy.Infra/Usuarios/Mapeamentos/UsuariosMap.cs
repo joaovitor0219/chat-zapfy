@@ -18,7 +18,7 @@ namespace ChatZapfy.Infra.Usuarios.Mapeamentos
             Map(u => u.Email).Column("Email");
             Map(u => u.Senha).Column("Senha");
             Map(u => u.DataInclusao).Column("DataInclusao");
-            
+            HasMany(x => x.ConversasUsuarios).KeyColumn("IDUSUARIO").Inverse().Cascade.All();
         }
     }
 }

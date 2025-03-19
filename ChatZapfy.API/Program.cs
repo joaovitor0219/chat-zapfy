@@ -1,8 +1,11 @@
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Text.Json.Serialization;
+using ChatZapfy.Aplicacao.Usuarios.Profiles;
+using ChatZapfy.Aplicacao.Usuarios.Servicos;
 using ChatZapfy.Dominio.Usuarios.Servicos;
 using ChatZapfy.Infra.Usuarios.Mapeamentos;
+using ChatZapfy.Infra.Usuarios.Repositorios;
 using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
 using Microsoft.AspNetCore.Authentication.JwtBearer;

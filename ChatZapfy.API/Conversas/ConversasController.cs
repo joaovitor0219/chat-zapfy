@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Autoglass.Autoplay.Dominio.Util;
 using ChatZapfy.Aplicacao.Conversas.Servicos.Interfaces;
 using ChatZapfy.DataTransfer.Conversas.Requests;
 using ChatZapfy.DataTransfer.Conversas.Responses;
@@ -29,6 +30,19 @@ namespace ChatZapfy.API.Conversas
         public ActionResult<ConversaResponse> Recuperar(int id)
         {
             ConversaResponse response = conversasAppServico.Recuperar(id);
+
+            return Ok(response);
+        }
+
+        /// <summary>
+        /// Recupera a lista de conversas paginado
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult<PaginacaoConsulta<ConversaResponse>> Listar(ConversasListarRequest request)
+        {
+            var response = conversasAppServico.Listar(request);
 
             return Ok(response);
         }

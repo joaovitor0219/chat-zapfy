@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Autoglass.Autoplay.Dominio.Util;
 using ChatZapfy.Aplicacao.Usuarios.Servicos.Interfaces;
 using ChatZapfy.DataTransfer.Usuarios.Requests;
 using ChatZapfy.DataTransfer.Usuarios.Responses;
@@ -73,6 +74,19 @@ namespace ChatZapfy.API.Usuarios
             usuariosAppServico.Excluir(id);
 
             return Ok();
+        }
+
+        /// <summary>
+        /// Recupera a lista de conversas usuarios paginado
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult<PaginacaoConsulta<UsuarioResponse>> Listar(UsuarioListarRequest request)
+        {
+            var response = usuariosAppServico.Listar(request);
+
+            return Ok(response);
         }
     }
 }

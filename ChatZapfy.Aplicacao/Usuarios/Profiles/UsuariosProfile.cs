@@ -6,6 +6,7 @@ using AutoMapper;
 using ChatZapfy.DataTransfer.Usuarios.Requests;
 using ChatZapfy.DataTransfer.Usuarios.Responses;
 using ChatZapfy.Dominio.Usuarios.Entidades;
+using ChatZapfy.Dominio.Usuarios.Repositorios.Filtros;
 using ChatZapfy.Dominio.Usuarios.Servicos.Comandos;
 
 namespace ChatZapfy.Aplicacao.Usuarios.Profiles
@@ -16,6 +17,7 @@ namespace ChatZapfy.Aplicacao.Usuarios.Profiles
         {
             CreateMap<Usuario, UsuarioResponse>();
             CreateMap<UsuarioRequest, UsuarioComando>();
+            CreateMap<UsuarioListarRequest, UsuarioListarFiltro>();
         }
     }
 }

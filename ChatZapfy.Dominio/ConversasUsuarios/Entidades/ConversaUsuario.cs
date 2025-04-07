@@ -9,10 +9,10 @@ namespace ChatZapfy.Dominio.ConversasUsuarios.Entidades
 {
     public class ConversaUsuario
     {
-        public int Id { get; protected set; }
-        public Usuario Usuario { get; protected set; }
-        public Conversa Conversa { get; protected set; }
-        public DateTime DataInclusao { get; protected set; }
+        public virtual int Id { get; protected set; }
+        public virtual Usuario Usuario { get; protected set; }
+        public virtual Conversa Conversa { get; protected set; }
+        public virtual DateTime DataInclusao { get; protected set; }
 
         protected ConversaUsuario()
         {

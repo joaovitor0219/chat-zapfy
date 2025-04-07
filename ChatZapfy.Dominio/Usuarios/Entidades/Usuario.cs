@@ -64,12 +64,12 @@ namespace ChatZapfy.Dominio.Usuarios.Entidades
         {
             if(string.IsNullOrWhiteSpace(senha))
             {
-                throw new AtributoObrigatorioExcecao("senha");
+                throw new AtributoObrigatorioExcecao("Senha");
             }
 
             if(senha.Length < 8)
             {
-                throw new TamanhoDeAtributoInvalidoExcecao("senha");
+                throw new TamanhoDeAtributoInvalidoExcecao("Senha");
             }
 
             Senha = senha;

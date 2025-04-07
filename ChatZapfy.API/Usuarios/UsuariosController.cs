@@ -82,7 +82,7 @@ namespace ChatZapfy.API.Usuarios
         /// <param name="request"></param>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult<PaginacaoConsulta<UsuarioResponse>> Listar(UsuarioListarRequest request)
+        public ActionResult<PaginacaoConsulta<UsuarioResponse>> Listar([FromQuery]UsuarioListarRequest request)
         {
             var response = usuariosAppServico.Listar(request);
 

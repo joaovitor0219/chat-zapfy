@@ -40,7 +40,7 @@ namespace ChatZapfy.API.Conversas
         /// <param name="request"></param>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult<PaginacaoConsulta<ConversaResponse>> Listar(ConversasListarRequest request)
+        public ActionResult<PaginacaoConsulta<ConversaResponse>> Listar([FromQuery]ConversasListarRequest request)
         {
             var response = conversasAppServico.Listar(request);
 

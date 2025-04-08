@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AplicativoTarefa.Dominio.Execoes;
+using ChatZapfy.Dominio.ConversasUsuarios.Entidades;
+using ChatZapfy.Dominio.ConversasUsuarios.Servicos.Interfaces;
 using ChatZapfy.Dominio.Usuarios.Entidades;
 using ChatZapfy.Dominio.Usuarios.Repositorios.Interfaces;
 using ChatZapfy.Dominio.Usuarios.Servicos.Comandos;
@@ -13,10 +15,12 @@ namespace ChatZapfy.Dominio.Usuarios.Servicos
     public class UsuariosServico : IUsuariosServico
     {
         private readonly IUsuariosRepositorio usuariosRepositorio;
+        private readonly IConversasUsuariosServico conversasUsuariosServico;
 
-        public UsuariosServico(IUsuariosRepositorio usuariosRepositorio)
+        public UsuariosServico(IUsuariosRepositorio usuariosRepositorio, IConversasUsuariosServico conversasUsuariosServico)
         {
             this.usuariosRepositorio = usuariosRepositorio;
+            this.conversasUsuariosServico = conversasUsuariosServico;
         }
 
         public Usuario Editar(int id, UsuarioComando comando)
@@ -59,6 +63,22 @@ namespace ChatZapfy.Dominio.Usuarios.Servicos
                 throw new RegraDeNegocioExcecao("Usuário é obrigatório");
 
             return usuario;
+        }
+
+        public IList<Usuario> RecuperarUsuariosPorConversa(int idConversa)
+        {
+            IList<ConversaUsuario> conversaUsuarios = conversasUsuariosServico.RecuperarConversaUsuarioPorConversa(idConversa);
+
+            IList<Usuario> usuarios = new List<Usuario>();
+
+            foreach(var conversaUsuario in conversaUsuarios)
+            {
+                Usuario usuario = Validar(conversaUsuario.Usuario.Id);
+
+                usuarios.Add(usuario);
+            }
+
+            return usuarios;
         }
     }
 }

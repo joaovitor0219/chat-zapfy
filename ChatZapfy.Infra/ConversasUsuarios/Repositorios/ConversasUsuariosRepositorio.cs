@@ -42,5 +42,12 @@ namespace ChatZapfy.Infra.ConversasUsuarios.Repositorios
 
             return query;
         }
+
+        public IList<ConversaUsuario> RecuperarConversasUsuariosPorConversa(int idConversa)
+        {
+            IList<ConversaUsuario> conversaUsuarios = Query().Where(x => x.Conversa.Id == idConversa).ToList();
+
+            return conversaUsuarios;
+        }
     }
 }

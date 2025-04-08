@@ -14,5 +14,6 @@ namespace ChatZapfy.Dominio.ConversasUsuarios.Servicos.Interfaces
         ConversaUsuario Instanciar(Usuario usuario, Conversa conversa);
         void Excluir(int id);
         ConversaUsuario Validar(int id);
+        IList<ConversaUsuario> RecuperarConversaUsuarioPorConversa(int idConversa);
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Threading.Tasks;
 using AplicativoTarefa.Dominio.Execoes;
 using ChatZapfy.Dominio.Conversas.Entidades;
@@ -47,6 +48,13 @@ namespace ChatZapfy.Dominio.ConversasUsuarios.Servicos
                 throw new RegraDeNegocioExcecao("Conversa usuario é obrigatório");
 
             return conversaUsuario;
+        }
+
+        public IList<ConversaUsuario> RecuperarConversaUsuarioPorConversa(int idConversa)
+        {
+            IList<ConversaUsuario> conversaUsuarios = conversasUsuariosRepositorio.RecuperarConversasUsuariosPorConversa(idConversa);
+
+            return conversaUsuarios;
         }
     }
 }

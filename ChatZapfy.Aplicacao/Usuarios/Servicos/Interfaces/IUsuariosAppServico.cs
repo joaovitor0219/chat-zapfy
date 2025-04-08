@@ -15,5 +15,6 @@ namespace ChatZapfy.Aplicacao.Usuarios.Servicos.Interfaces
         void Excluir(int id);
         UsuarioResponse Editar(int id, UsuarioRequest request);
         PaginacaoConsulta<UsuarioResponse> Listar(UsuarioListarRequest request);
+        IList<UsuarioResponse> ListarUsuariosPorConversa(UsuarioPorConversaListarRequest request);
     }
 }

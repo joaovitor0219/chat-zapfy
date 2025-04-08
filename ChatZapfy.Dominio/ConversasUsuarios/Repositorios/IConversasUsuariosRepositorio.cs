@@ -11,5 +11,6 @@ namespace ChatZapfy.Dominio.ConversasUsuarios.Repositorios
     public interface IConversasUsuariosRepositorio : IGenericoRepositorio<ConversaUsuario>
     {
         IQueryable<ConversaUsuario> Filtrar(ConversaUsuarioListarFiltro filtro);
+        IList<ConversaUsuario> RecuperarConversasUsuariosPorConversa(int idConversa);
     }
 }

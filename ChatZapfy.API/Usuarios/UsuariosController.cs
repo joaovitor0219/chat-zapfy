@@ -88,5 +88,18 @@ namespace ChatZapfy.API.Usuarios
 
             return Ok(response);
         }
+
+        /// <summary>
+        /// Recupera a lista de usuários de uma conversa
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [HttpGet("usuarios-conversas")]
+        public ActionResult<PaginacaoConsulta<UsuarioResponse>> ListarUsuariosPorConversa([FromQuery]UsuarioPorConversaListarRequest request)
+        {
+            var response = usuariosAppServico.ListarUsuariosPorConversa(request);
+
+            return Ok(response);
+        }
     }
 }

@@ -111,5 +111,12 @@ namespace ChatZapfy.Aplicacao.Usuarios.Servicos
 
             return mapper.Map<PaginacaoConsulta<UsuarioResponse>>(conversasUsuarios);
         }
+
+        public IList<UsuarioResponse> ListarUsuariosPorConversa(UsuarioPorConversaListarRequest request)
+        {
+            IList<Usuario> usuarios = usuariosServico.RecuperarUsuariosPorConversa(request.IdConversa);
+
+            return mapper.Map<List<UsuarioResponse>>(usuarios);
+        }
     }
 }

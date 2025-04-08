@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Autoglass.Autoplay.Dominio.Util;
 using Autoglass.Autoplay.Dominio.Util.Filtros.Enumeradores;
+using ChatZapfy.Dominio.ConversasUsuarios.Entidades;
 using ChatZapfy.Dominio.Genericos.Interfaces;
 using ChatZapfy.Dominio.Usuarios.Entidades;
 using ChatZapfy.Dominio.Usuarios.Repositorios.Filtros;
@@ -45,5 +46,6 @@ namespace ChatZapfy.Infra.Usuarios.Repositorios
 
             return query;
         }
+
     }
 }

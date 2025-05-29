@@ -13,48 +13,48 @@ public class MensagensController : ControllerBase
 {
     private readonly IMensagensAppServico mensagensAppServico;
 
-        public MensagensController(IMensagensAppServico mensagensAppServico)
-        {
-            this.mensagensAppServico = mensagensAppServico;
-        }
+    public MensagensController(IMensagensAppServico mensagensAppServico)
+    {
+        this.mensagensAppServico = mensagensAppServico;
+    }
 
-        /// <summary>
-        /// Recupera uma mensagem
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        [HttpGet("{id}")]
-        public ActionResult<MensagemResponse> Recuperar(int id)
-        {
-            MensagemResponse response = mensagensAppServico.Recuperar(id);
+    /// <summary>
+    /// Recupera uma mensagem
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    [HttpGet("{id}")]
+    public ActionResult<MensagemResponse> Recuperar(int id)
+    {
+        MensagemResponse response = mensagensAppServico.Recuperar(id);
 
-            return Ok(response);
-        }
+        return Ok(response);
+    }
 
-        /// <summary>
-        /// Recupera a lista de mensagens paginado
-        /// </summary>
-        /// <param name="request"></param>
-        /// <returns></returns>
-        [HttpGet]
-        public ActionResult<PaginacaoConsulta<MensagemResponse>> Listar([FromQuery]MensagemListarRequest request)
-        {
-            var response = mensagensAppServico.Listar(request);
+    /// <summary>
+    /// Recupera a lista de mensagens paginado
+    /// </summary>
+    /// <param name="request"></param>
+    /// <returns></returns>
+    [HttpGet]
+    public ActionResult<PaginacaoConsulta<MensagemResponse>> Listar([FromQuery] MensagemListarRequest request)
+    {
+        var response = mensagensAppServico.Listar(request);
 
-            return Ok(response);
-        }
+        return Ok(response);
+    }
 
 
-        /// <summary>
-        /// Adiciona uma nova mensagem
-        /// </summary>
-        /// <param name="request"></param>
-        /// <returns></returns>
-        [HttpPost]
-        public ActionResult<MensagemResponse> Inserir([FromBody] MensagemRequest request)
-        {
-            mensagensAppServico.Inserir(request);
+    /// <summary>
+    /// Adiciona uma nova mensagem
+    /// </summary>
+    /// <param name="request"></param>
+    /// <returns></returns>
+    [HttpPost]
+    public ActionResult<MensagemResponse> Inserir([FromBody] MensagemRequest request)
+    {
+        mensagensAppServico.Inserir(request);
 
-            return Ok();
-        }
+        return Ok();
+    }
 }

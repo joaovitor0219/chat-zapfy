@@ -3,6 +3,7 @@ using System.Text;
 using System.Text.Json.Serialization;
 using ChatZapfy.Aplicacao.Usuarios.Profiles;
 using ChatZapfy.Aplicacao.Usuarios.Servicos;
+using ChatZapfy.Dominio.ConfiguracoesAws;
 using ChatZapfy.Dominio.Usuarios.Servicos;
 using ChatZapfy.Infra.Usuarios.Mapeamentos;
 using ChatZapfy.Infra.Usuarios.Repositorios;
@@ -84,6 +85,8 @@ public class Program
             op.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
             op.JsonSerializerOptions.PropertyNamingPolicy = null;
         });
+
+        services.Configure<AwsConfig>(Configuration.GetSection("AwsSqs"));
 
         services.AddSwaggerGen(c =>
         {

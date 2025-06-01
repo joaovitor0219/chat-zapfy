@@ -6,8 +6,10 @@ using ChatZapfy.DataTransfer.Mensagens.Requests;
 using ChatZapfy.DataTransfer.Mensagens.Requests.Requests;
 using ChatZapfy.DataTransfer.Mensagens.Responses.Responses;
 using ChatZapfy.Dominio.Mensagens.Entidades;
+using ChatZapfy.Dominio.Mensagens.Publisher.Interfaces;
 using ChatZapfy.Dominio.Mensagens.Repositorios.Filtros;
 using ChatZapfy.Dominio.Mensagens.Repositorios.Interfaces;
+using ChatZapfy.Dominio.Mensagens.Servicos.Comandos;
 using ChatZapfy.Dominio.Mensagens.Servicos.Interfaces;
 
 namespace ChatZapfy.Aplicacao.Mensagens.Servicos;
@@ -18,28 +20,41 @@ public class MensagensAppServico : IMensagensAppServico
     private readonly IMensagensRepositorio mensagensRepositorio;
     private readonly IMapper mapper;
     private readonly IUnitOfWork unitOfWork;
+    private readonly IPublisherFilaRepositorio publisherFilaRepositorio;
 
     public MensagensAppServico(
         IMensagensServico mensagensServico,
         IMensagensRepositorio mensagensRepositorio,
         IMapper mapper,
-        IUnitOfWork unitOfWork)
+        IUnitOfWork unitOfWork,
+        IPublisherFilaRepositorio publisherFilaRepositorio)
     {
         this.mensagensServico = mensagensServico;
         this.mensagensRepositorio = mensagensRepositorio;
         this.mapper = mapper;
         this.unitOfWork = unitOfWork;
+        this.publisherFilaRepositorio = publisherFilaRepositorio;
     }
 
-    public void Inserir(MensagemRequest request)
+    public async Task Inserir(MensagemRequest request)
     {
         try
         {
-            unitOfWork.BeginTransaction();
+            // unitOfWork.BeginTransaction();
 
-            mensagensServico.Inserir(request.IdConversa, request.IdUsuario, request.Conteudo);
+            MensagemComando comando = new MensagemComando
+            {
+                IdConversa = request.IdConversa,
+                IdUsuario = request.IdUsuario,
+                Conteudo = request.Conteudo
+            };
 
-            unitOfWork.Commit();
+            await publisherFilaRepositorio.PublicarAsync(comando);
+
+            // mensagensServico.Inserir(request.IdConversa, request.IdUsuario, request.Conteudo);
+
+            // unitOfWork.Commit();
+
         }
         catch
         {

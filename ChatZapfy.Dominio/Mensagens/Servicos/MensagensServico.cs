@@ -3,6 +3,7 @@ using ChatZapfy.Dominio.Conversas.Entidades;
 using ChatZapfy.Dominio.Conversas.Servicos.Interfaces;
 using ChatZapfy.Dominio.Mensagens.Entidades;
 using ChatZapfy.Dominio.Mensagens.Repositorios.Interfaces;
+using ChatZapfy.Dominio.Mensagens.Servicos.Comandos;
 using ChatZapfy.Dominio.Mensagens.Servicos.Interfaces;
 using ChatZapfy.Dominio.Usuarios.Entidades;
 using ChatZapfy.Dominio.Usuarios.Servicos.Interfaces;

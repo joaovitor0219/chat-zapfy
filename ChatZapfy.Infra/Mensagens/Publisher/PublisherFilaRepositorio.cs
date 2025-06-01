@@ -10,6 +10,7 @@ using AplicativoTarefa.Dominio.Execoes;
 using ChatZapfy.Dominio.ConfiguracoesAws;
 using ChatZapfy.Dominio.Mensagens.Publisher.Interfaces;
 using ChatZapfy.Dominio.Mensagens.Servicos.Comandos;
+using Microsoft.Extensions.Options;
 using Remotion.Linq.Parsing.Structure.IntermediateModel;
 
 namespace ChatZapfy.Infra.Mensagens.Publisher
@@ -17,19 +18,19 @@ namespace ChatZapfy.Infra.Mensagens.Publisher
     public class PublisherFilaRepositorio : IPublisherFilaRepositorio
     {
         private readonly IAmazonSQS amazonSQS;
-        private readonly AwsConfig awsConfig;
+        private readonly IOptions<AwsConfig> config;
 
-        public PublisherFilaRepositorio(IAmazonSQS amazonSQS, AwsConfig awsConfig)
+        public PublisherFilaRepositorio(IAmazonSQS amazonSQS,IOptions<AwsConfig> config)
         {
             this.amazonSQS = amazonSQS;
-            this.awsConfig = awsConfig;
+            this.config = config;
         }
 
         public async Task PublicarAsync(MensagemComando comando)
         {
             var request = new SendMessageRequest
             {
-                QueueUrl = awsConfig.QueueUrl,
+                QueueUrl = config.Value.QueueUrl,
                 MessageBody = JsonSerializer.Serialize(comando)
             };
 

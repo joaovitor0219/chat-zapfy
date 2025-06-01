@@ -51,9 +51,9 @@ public class MensagensController : ControllerBase
     /// <param name="request"></param>
     /// <returns></returns>
     [HttpPost]
-    public ActionResult<MensagemResponse> Inserir([FromBody] MensagemRequest request)
+    public async Task<ActionResult<MensagemResponse>> Inserir([FromBody] MensagemRequest request)
     {
-        mensagensAppServico.Inserir(request);
+        await mensagensAppServico.Inserir(request);
 
         return Ok();
     }

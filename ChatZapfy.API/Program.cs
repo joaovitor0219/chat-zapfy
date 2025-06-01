@@ -1,6 +1,7 @@
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Text.Json.Serialization;
+using Amazon.SQS;
 using ChatZapfy.Aplicacao.Usuarios.Profiles;
 using ChatZapfy.Aplicacao.Usuarios.Servicos;
 using ChatZapfy.Dominio.ConfiguracoesAws;
@@ -14,6 +15,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using NHibernate;
+using Amazon.Extensions.NETCore.Setup;
 using ISession = NHibernate.ISession;
 
 public class Program
@@ -86,7 +88,11 @@ public class Program
             op.JsonSerializerOptions.PropertyNamingPolicy = null;
         });
 
-        services.Configure<AwsConfig>(Configuration.GetSection("AwsSqs"));
+        services.Configure<AwsConfig>(Configuration.GetSection("AwsConfig"));
+
+        services.AddDefaultAWSOptions(Configuration.GetAWSOptions());
+
+        services.AddAWSService<IAmazonSQS>();
 
         services.AddSwaggerGen(c =>
         {

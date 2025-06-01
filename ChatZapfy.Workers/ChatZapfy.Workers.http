@@ -1,0 +1,6 @@
+@ChatZapfy.Workers_HostAddress = http://localhost:5091
+
+GET {{ChatZapfy.Workers_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

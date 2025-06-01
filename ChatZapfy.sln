@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatZapfy.Infra", "ChatZapf
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatZapfy.DataTransfer", "ChatZapfy.DataTransfer\ChatZapfy.DataTransfer.csproj", "{DE004CE2-A915-4B04-B6B0-AC7E23C103F8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatZapfy.Workers", "ChatZapfy.Workers\ChatZapfy.Workers.csproj", "{7618BE0B-813D-48B2-83AF-2B993E1A7262}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,5 +44,9 @@ Global
 		{DE004CE2-A915-4B04-B6B0-AC7E23C103F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DE004CE2-A915-4B04-B6B0-AC7E23C103F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DE004CE2-A915-4B04-B6B0-AC7E23C103F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7618BE0B-813D-48B2-83AF-2B993E1A7262}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7618BE0B-813D-48B2-83AF-2B993E1A7262}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7618BE0B-813D-48B2-83AF-2B993E1A7262}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7618BE0B-813D-48B2-83AF-2B993E1A7262}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

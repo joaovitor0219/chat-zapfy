@@ -12,6 +12,7 @@ using ChatZapfy.Dominio.Mensagens.Repositorios.Filtros;
 using ChatZapfy.Dominio.Mensagens.Repositorios.Interfaces;
 using ChatZapfy.Dominio.Mensagens.Servicos.Comandos;
 using ChatZapfy.Dominio.Mensagens.Servicos.Interfaces;
+using Microsoft.Extensions.Logging;
 
 namespace ChatZapfy.Aplicacao.Mensagens.Servicos;
 
@@ -22,19 +23,22 @@ public class MensagensAppServico : IMensagensAppServico
     private readonly IMapper mapper;
     private readonly IUnitOfWork unitOfWork;
     private readonly IPublisherFilaRepositorio publisherFilaRepositorio;
+    private readonly ILogger<MensagensAppServico> logger;
 
     public MensagensAppServico(
         IMensagensServico mensagensServico,
         IMensagensRepositorio mensagensRepositorio,
         IMapper mapper,
         IUnitOfWork unitOfWork,
-        IPublisherFilaRepositorio publisherFilaRepositorio)
+        IPublisherFilaRepositorio publisherFilaRepositorio,
+        ILogger<MensagensAppServico> logger)
     {
         this.mensagensServico = mensagensServico;
         this.mensagensRepositorio = mensagensRepositorio;
         this.mapper = mapper;
         this.unitOfWork = unitOfWork;
         this.publisherFilaRepositorio = publisherFilaRepositorio;
+        this.logger = logger;
     }
 
     public async Task PublicarNaFilaAws(MensagemRequest request)
@@ -50,10 +54,11 @@ public class MensagensAppServico : IMensagensAppServico
 
             await publisherFilaRepositorio.PublicarAsync(comando);
 
+            logger.LogInformation("<{EventoId}> - {Mensagem}", "PublicarNaFilaAws", "Mensagem publicada na fila");
         }
-        catch
+        catch(Exception ex)
         {
-            unitOfWork.Rollback();
+            logger.LogError(ex, "<{EventoId} {Mensagem}>","PublicarNaFilaAws", "Erro ao publicar mensagem na fila");
 
             throw;
         }
@@ -71,10 +76,11 @@ public class MensagensAppServico : IMensagensAppServico
             await mensagensServico.Inserir(comando);
 
             unitOfWork.Commit();
-
         }
-        catch
+        catch(Exception ex)
         {
+            logger.LogError(ex, "<{EventoId} {Mensagem}>","InserirMensagens", "Erro ao processar e inserir mensagem");
+
             unitOfWork.Rollback();
 
             throw;

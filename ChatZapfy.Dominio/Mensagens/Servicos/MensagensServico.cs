@@ -26,11 +26,11 @@ public class MensagensServico : IMensagensServico
         this.conversasServico = conversasServico;
     }
 
-    public void Inserir(int idConversa, int idUsuario, string conteudo)
+    public async Task Inserir(MensagemComando comando)
     {
-        Mensagem mensagem = Instanciar(idConversa, idUsuario, conteudo);
+        Mensagem mensagem = Instanciar(comando.IdConversa, comando.IdUsuario, comando.Conteudo);
 
-        mensagensRepositorio.Inserir(mensagem);
+        await mensagensRepositorio.InserirAsync(mensagem);
     }
 
     public Mensagem Instanciar(int idConversa, int idUsuario, string conteudo)

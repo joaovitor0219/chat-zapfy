@@ -36,7 +36,7 @@ namespace ChatZapfy.Infra.Genericos
             return entidade;
         }
 
-       public PaginacaoConsulta<T> Listar(IQueryable<T> query, int qt, int pg, string cpOrd, TipoOrdenacaoEnum tpOrd)
+        public PaginacaoConsulta<T> Listar(IQueryable<T> query, int qt, int pg, string cpOrd, TipoOrdenacaoEnum tpOrd)
         {
             try
             {
@@ -74,6 +74,11 @@ namespace ChatZapfy.Infra.Genericos
             {
                 session.Save(entidade);
             }
+        }
+
+        public async Task InserirAsync(T entidade)
+        {
+            await session.SaveAsync(entidade);
         }
     }
 }

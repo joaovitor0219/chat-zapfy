@@ -1,10 +1,15 @@
 
 using System.Reflection.Metadata;
+using Amazon.SQS;
 using ChatZapfy.Aplicacao.Usuarios.Profiles;
 using ChatZapfy.Aplicacao.Usuarios.Servicos;
+using ChatZapfy.Dominio.ConfiguracoesAws;
 using ChatZapfy.Dominio.Usuarios.Servicos;
 using ChatZapfy.Infra.Usuarios.Mapeamentos;
 using ChatZapfy.Infra.Usuarios.Repositorios;
+using ChatZapfy.Workers.Factorys;
+using ChatZapfy.Workers.Listeners;
+using ChatZapfy.Workers.Mensagens;
 using CrystalQuartz.AspNetCore;
 using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
@@ -45,7 +50,12 @@ builder.Services.AddControllers();
 
 builder.Services.AddSingleton<IJobFactory, ScheduledJobFactory>();
 builder.Services.AddSingleton<IJobListener, LogsJobListener>();
+builder.Services.AddTransient<ProcessarMensagemWorker>();
 
+
+builder.Services.Configure<AwsConfig>(builder.Configuration.GetSection("AwsConfig"));
+
+builder.Services.AddAWSService<IAmazonSQS>();
 
 
 builder.Services.AddAutoMapper(typeof(UsuariosProfile));
@@ -74,7 +84,13 @@ scheduler.JobFactory = builder.Services.BuildServiceProvider().GetService<IJobFa
 
 scheduler.ListenerManager.AddJobListener(builder.Services.BuildServiceProvider().GetService<IJobListener>(), GroupMatcher<JobKey>.AnyGroup());
 
-await scheduler.ScheduleJob(faturamentosJob, TriggerBuilder.Create().WithCronSchedule("0 * * ? * *").Build());
+IJobDetail publicarMensagemWorker = JobBuilder.Create<ProcessarMensagemWorker>()
+    .WithIdentity("ProcessarMensagemWorker","Processa a mensagem e insere no banco")
+    .StoreDurably()
+    .Build();
+
+// ITrigger triggerPublicarMensagemWorker = TriggerBuilder.Create().Build();
+await scheduler.AddJob(publicarMensagemWorker, true);
 
 await scheduler.Start();
 

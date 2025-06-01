@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Autoglass.Autoplay.Aplicacao.Transacoes.Interfaces;
 using Autoglass.Autoplay.Dominio.Util;
 using AutoMapper;
@@ -36,12 +37,10 @@ public class MensagensAppServico : IMensagensAppServico
         this.publisherFilaRepositorio = publisherFilaRepositorio;
     }
 
-    public async Task Inserir(MensagemRequest request)
+    public async Task PublicarNaFilaAws(MensagemRequest request)
     {
         try
         {
-            // unitOfWork.BeginTransaction();
-
             MensagemComando comando = new MensagemComando
             {
                 IdConversa = request.IdConversa,
@@ -51,10 +50,6 @@ public class MensagensAppServico : IMensagensAppServico
 
             await publisherFilaRepositorio.PublicarAsync(comando);
 
-            // mensagensServico.Inserir(request.IdConversa, request.IdUsuario, request.Conteudo);
-
-            // unitOfWork.Commit();
-
         }
         catch
         {
@@ -63,6 +58,27 @@ public class MensagensAppServico : IMensagensAppServico
             throw;
         }
 
+    }
+
+    public async Task InserirMensagens(string mensagemAws)
+    {
+        try
+        {
+            MensagemComando comando = JsonSerializer.Deserialize<MensagemComando>(mensagemAws);
+
+            unitOfWork.BeginTransaction();
+
+            await mensagensServico.Inserir(comando);
+
+            unitOfWork.Commit();
+
+        }
+        catch
+        {
+            unitOfWork.Rollback();
+
+            throw;
+        }
     }
 
     public MensagemResponse Recuperar(int id)

@@ -51,9 +51,9 @@ public class MensagensController : ControllerBase
     /// <param name="request"></param>
     /// <returns></returns>
     [HttpPost]
-    public async Task<ActionResult<MensagemResponse>> Inserir([FromBody] MensagemRequest request)
+    public async Task<ActionResult> PublicarNaFilaAws([FromBody] MensagemRequest request)
     {
-        await mensagensAppServico.Inserir(request);
+        await mensagensAppServico.PublicarNaFilaAws(request);
 
         return Ok();
     }

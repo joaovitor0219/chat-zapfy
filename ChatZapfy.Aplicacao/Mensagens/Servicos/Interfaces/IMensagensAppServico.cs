@@ -7,7 +7,8 @@ namespace ChatZapfy.Aplicacao.Mensagens.Servicos.Interfaces;
 
 public interface IMensagensAppServico
 {
-    Task Inserir(MensagemRequest request);
+    Task PublicarNaFilaAws(MensagemRequest request);
     MensagemResponse Recuperar(int id);
     PaginacaoConsulta<MensagemResponse> Listar(MensagemListarRequest request);
+    Task InserirMensagens(string mensagemAws);
 }

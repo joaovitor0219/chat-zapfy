@@ -53,7 +53,7 @@ namespace ChatZapfy.Dominio.Conversas.Servicos
             Conversa conversa = conversasRepositorio.Recuperar(id);
 
             if(conversa is null)
-                throw new RegraDeNegocioExcecao("Conversa é obrigatório");
+                throw new RegraDeNegocioExcecao("Conversa não encontrada");
 
             return conversa;
         }

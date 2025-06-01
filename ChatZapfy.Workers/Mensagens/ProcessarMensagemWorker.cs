@@ -1,9 +1,11 @@
 using Amazon.SQS;
 using Amazon.SQS.Model;
+using AplicativoTarefa.Dominio.Execoes;
 using ChatZapfy.Aplicacao.Mensagens.Servicos.Interfaces;
 using ChatZapfy.Dominio.ConfiguracoesAws;
 using ChatZapfy.Dominio.Mensagens.Entidades;
 using Microsoft.Extensions.Options;
+using Polly;
 using Quartz;
 using Serilog.Context;
 
@@ -40,25 +42,44 @@ namespace ChatZapfy.Workers.Mensagens
                         {
                             QueueUrl = config.Value.QueueUrl,
                             MaxNumberOfMessages = 1,
-                            WaitTimeSeconds = 10
+                            WaitTimeSeconds = 10,
                         };
 
                         var response = await amazonSQS.ReceiveMessageAsync(request);
 
-                        foreach (var message in response.Messages)
+                        if (response.Messages != null && response.Messages.Any())
                         {
-                            logger.LogInformation("<{EventoId}> - {Mensagem}.", "ProcessarMensagemWorker", "Processamendo mensagem");
+                            foreach (var message in response.Messages)
+                            {
+                                var policy = Policy.Handle<Exception>()
+                                .WaitAndRetryAsync(3, novaTentativa => TimeSpan.FromSeconds(2), (exception, timeSpan, contador, context) =>
+                                {
+                                    logger.LogWarning(exception, "Tentativa {RetryCount} falhou. Nova tentativa em {DelaySeconds} segundos", contador, timeSpan.TotalSeconds);
+                                });
 
-                            await mensagensAppServico.InserirMensagens(message.Body);
+                                try
+                                {
+                                    await policy.ExecuteAsync(async () =>
+                                    {
+                                        await mensagensAppServico.InserirMensagens(message.Body);
+                                    });
+                                }
+                                catch (RegraDeNegocioExcecao ex)
+                                {
+                                    logger.LogWarning(ex, "Mensagem inválida por regra de negócio. Removendo da fila");
 
-                            await amazonSQS.DeleteMessageAsync(config.Value.QueueUrl, message.ReceiptHandle);
+                                    await amazonSQS.DeleteMessageAsync(config.Value.QueueUrl, message.ReceiptHandle);
 
-                            logger.LogInformation("<{EventoId}> - {Mensagem}.", "ProcessarMensagemWorker", "Mensagem processada e excluída");
+                                }
+                                
+                                logger.LogInformation("<{EventoId}> - {Mensagem}.", "ProcessarMensagemWorker", "Mensagem processada e excluída");
+
+                            }
                         }
                     }
                     catch (Exception ex)
                     {
-                        logger.LogError(ex, "<{EventoId} {Mensagem}>","ProcessarMensagemWorker", "Erro ao iniciar ao processar mensagem");
+                        logger.LogError(ex, "<{EventoId} {Mensagem}>", "ProcessarMensagemWorker", "Erro ao processar mensagem");
                     }
                     finally
                     {

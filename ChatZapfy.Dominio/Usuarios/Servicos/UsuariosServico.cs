@@ -60,7 +60,7 @@ namespace ChatZapfy.Dominio.Usuarios.Servicos
             Usuario usuario = usuariosRepositorio.Recuperar(id);
 
             if(usuario is null)
-                throw new RegraDeNegocioExcecao("Usuário é obrigatório");
+                throw new RegraDeNegocioExcecao("Usuário não encontrado");
 
             return usuario;
         }

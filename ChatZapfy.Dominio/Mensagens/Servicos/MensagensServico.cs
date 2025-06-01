@@ -28,6 +28,11 @@ public class MensagensServico : IMensagensServico
 
     public async Task Inserir(MensagemComando comando)
     {
+        if (comando.IdUsuario == 0 && comando.IdConversa == 0 && string.IsNullOrWhiteSpace(comando.Conteudo))
+        {
+            throw new RegraDeNegocioExcecao("Mensagem não enviada corretamente");
+        }
+
         Mensagem mensagem = Instanciar(comando.IdConversa, comando.IdUsuario, comando.Conteudo);
 
         await mensagensRepositorio.InserirAsync(mensagem);

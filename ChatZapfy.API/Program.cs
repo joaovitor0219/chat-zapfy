@@ -17,6 +17,7 @@ using Microsoft.OpenApi.Models;
 using NHibernate;
 using Amazon.Extensions.NETCore.Setup;
 using ISession = NHibernate.ISession;
+using ChatZapfy.API.Hubs;
 
 public class Program
 {
@@ -44,20 +45,19 @@ public class Program
 
         app.UseRouting();
 
-        app.UseCors(c =>
-        {
-            c.AllowAnyHeader();
-            c.AllowAnyMethod();
-            c.AllowAnyOrigin();
-        });
+        app.UseCors("CorsPolicy");
+
 
         app.UseHttpsRedirection();
         // app.UseAuthentication();
         // app.UseAuthorization();
 
-        app.UseEndpoints(endpoints => {
+        app.UseEndpoints(endpoints =>
+        {
             endpoints.MapControllers();
         });
+
+        app.MapHub<ChatHub>("/api/chatHub");
 
         app.Run();
     }
@@ -87,6 +87,20 @@ public class Program
             op.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
             op.JsonSerializerOptions.PropertyNamingPolicy = null;
         });
+
+        services.AddCors(options =>
+        {
+            options.AddPolicy("CorsPolicy", policy =>
+            {
+                policy
+                    .WithOrigins("http://localhost:4200")
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowCredentials();
+            });
+        });
+
+        services.AddSignalR();
 
         services.Configure<AwsConfig>(Configuration.GetSection("AwsConfig"));
 

@@ -44,7 +44,7 @@ namespace ChatZapfy.Dominio.ConversasUsuarios.Servicos
         {
             var conversaUsuario = conversasUsuariosRepositorio.Recuperar(id);
 
-            if(conversaUsuario is null)
+            if (conversaUsuario is null)
                 throw new RegraDeNegocioExcecao("Conversa usuario é obrigatório");
 
             return conversaUsuario;
@@ -53,6 +53,13 @@ namespace ChatZapfy.Dominio.ConversasUsuarios.Servicos
         public IList<ConversaUsuario> RecuperarConversaUsuarioPorConversa(int idConversa)
         {
             IList<ConversaUsuario> conversaUsuarios = conversasUsuariosRepositorio.RecuperarConversasUsuariosPorConversa(idConversa);
+
+            return conversaUsuarios;
+        }
+        
+        public IList<ConversaUsuario> RecuperarConversaUsuarioPorUsuario(int idUsuario)
+        {
+            IList<ConversaUsuario> conversaUsuarios = conversasUsuariosRepositorio.RecuperarConversasUsuariosPorUsuario(idUsuario);
 
             return conversaUsuarios;
         }

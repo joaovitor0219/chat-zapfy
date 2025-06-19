@@ -7,4 +7,5 @@ namespace ChatZapfy.Dominio.Mensagens.Repositorios.Interfaces;
 public interface IMensagensRepositorio : IGenericoRepositorio<Mensagem>
 {
     IQueryable<Mensagem> Filtrar(MensagemListarFiltro filtro);
+    IQueryable<Mensagem> ListarMensagemPorConversa(int idConversa);
 }

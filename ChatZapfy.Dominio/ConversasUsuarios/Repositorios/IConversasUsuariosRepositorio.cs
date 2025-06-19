@@ -12,5 +12,6 @@ namespace ChatZapfy.Dominio.ConversasUsuarios.Repositorios
     {
         IQueryable<ConversaUsuario> Filtrar(ConversaUsuarioListarFiltro filtro);
         IList<ConversaUsuario> RecuperarConversasUsuariosPorConversa(int idConversa);
+        IList<ConversaUsuario> RecuperarConversasUsuariosPorUsuario(int idUsuario);
     }
 }

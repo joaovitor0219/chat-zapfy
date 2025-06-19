@@ -59,7 +59,7 @@ namespace ChatZapfy.Dominio.Usuarios.Servicos
         {
             Usuario usuario = usuariosRepositorio.Recuperar(id);
 
-            if(usuario is null)
+            if (usuario is null)
                 throw new RegraDeNegocioExcecao("Usuário não encontrado");
 
             return usuario;
@@ -71,7 +71,7 @@ namespace ChatZapfy.Dominio.Usuarios.Servicos
 
             IList<Usuario> usuarios = new List<Usuario>();
 
-            foreach(var conversaUsuario in conversaUsuarios)
+            foreach (var conversaUsuario in conversaUsuarios)
             {
                 Usuario usuario = Validar(conversaUsuario.Usuario.Id);
 
@@ -79,6 +79,11 @@ namespace ChatZapfy.Dominio.Usuarios.Servicos
             }
 
             return usuarios;
+        }
+
+        public Usuario RecuperarUsuarioLogin(string nome, string senha)
+        {
+            return usuariosRepositorio.RecuperarUsuarioLogin(nome, senha);
         }
     }
 }

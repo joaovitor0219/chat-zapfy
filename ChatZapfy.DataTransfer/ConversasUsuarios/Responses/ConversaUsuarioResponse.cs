@@ -12,5 +12,6 @@ namespace ChatZapfy.DataTransfer.ConversasUsuarios.Responses
         public int Id { get; set; }
         public UsuarioResponse Usuario { get; set; }
         public ConversaResponse Conversa { get; set; }
+        public DateTime DataInclusao { get; set; }
     }
 }

@@ -24,27 +24,34 @@ namespace ChatZapfy.Infra.Usuarios.Repositorios
         {
             var query = Query();
 
-            if(filtro.Id.HasValue)
+            if (filtro.Id.HasValue)
             {
                 query = query.Where(x => x.Id == filtro.Id.Value);
             }
 
-            if(!string.IsNullOrWhiteSpace(filtro.Email))
+            if (!string.IsNullOrWhiteSpace(filtro.Email))
             {
                 query = query.Where(x => x.Email.Trim().ToUpper().Contains(filtro.Email.Trim().ToUpper()));
             }
 
-            if(!string.IsNullOrWhiteSpace(filtro.Nome))
+            if (!string.IsNullOrWhiteSpace(filtro.Nome))
             {
                 query = query.Where(x => x.Nome.Trim().ToUpper().Contains(filtro.Nome.Trim().ToUpper()));
             }
 
-            if(filtro.DataInclusao.HasValue)
+            if (filtro.DataInclusao.HasValue)
             {
                 query = query.Where(x => x.DataInclusao == filtro.DataInclusao.Value);
             }
 
             return query;
+        }
+
+        public Usuario RecuperarUsuarioLogin(string nome, string senha)
+        {
+            var query = Query();
+
+            return query.Where(x => x.Nome == nome && x.Senha == senha).FirstOrDefault();
         }
 
     }

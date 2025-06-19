@@ -10,7 +10,9 @@ public class MensagensProfile : Profile
 {
     public MensagensProfile()
     {
-        CreateMap<Mensagem, MensagemResponse>();
+        CreateMap<Mensagem, MensagemResponse>()
+        .ForMember(x => x.Conversa, y => y.MapFrom(z => z.Conversa))
+        .ForMember(x => x.Usuario, y => y.MapFrom(z => z.Usuario));
         CreateMap<MensagemListarRequest, MensagemListarFiltro>();
     }
 }

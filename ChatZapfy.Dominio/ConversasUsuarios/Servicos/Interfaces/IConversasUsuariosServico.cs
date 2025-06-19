@@ -15,5 +15,6 @@ namespace ChatZapfy.Dominio.ConversasUsuarios.Servicos.Interfaces
         void Excluir(int id);
         ConversaUsuario Validar(int id);
         IList<ConversaUsuario> RecuperarConversaUsuarioPorConversa(int idConversa);
+        IList<ConversaUsuario> RecuperarConversaUsuarioPorUsuario(int idUsuario);
     }
 }

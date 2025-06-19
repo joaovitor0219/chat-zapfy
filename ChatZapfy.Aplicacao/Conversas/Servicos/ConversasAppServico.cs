@@ -36,7 +36,7 @@ namespace ChatZapfy.Aplicacao.Conversas.Servicos
             {
                 unitOfWork.BeginTransaction();
 
-                var conversa = conversasServico.Editar(id,request.Nome);
+                var conversa = conversasServico.Editar(id, request.Nome);
 
                 unitOfWork.Commit();
 
@@ -103,6 +103,13 @@ namespace ChatZapfy.Aplicacao.Conversas.Servicos
             PaginacaoConsulta<Conversa> conversas = conversasRepositorio.Listar(query, request.Qt, request.Pg, request.CpOrd, request.TpOrd);
 
             return mapper.Map<PaginacaoConsulta<ConversaResponse>>(conversas);
+        }
+        
+        public IList<ConversaResponse> ListarConversasPorUsuario(ConversaPorUsuarioListarRequest request)
+        {
+            IList<Conversa> conversas = conversasServico.RecuperarConversasPorUsuario(request.IdUsuario);
+
+            return mapper.Map<List<ConversaResponse>>(conversas);
         }
     }
 }

@@ -47,6 +47,19 @@ namespace ChatZapfy.API.Conversas
             return Ok(response);
         }
 
+        /// <summary>
+        /// Recupera uma lista de conversas por usuário
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [HttpGet("conversas-usuarios")]
+        public ActionResult<PaginacaoConsulta<ConversaResponse>> ListarConversasPorUsuario([FromQuery]ConversaPorUsuarioListarRequest request)
+        {
+            var response = conversasAppServico.ListarConversasPorUsuario(request);
+
+            return Ok(response);
+        }
+
 
         /// <summary>
         /// Adiciona uma nova conversa

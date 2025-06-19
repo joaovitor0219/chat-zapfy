@@ -35,13 +35,13 @@ namespace ChatZapfy.Aplicacao.Usuarios.Servicos
 
         public UsuarioResponse Editar(int id, UsuarioRequest request)
         {
-            var comando = mapper.Map<UsuarioComando>(request); 
+            var comando = mapper.Map<UsuarioComando>(request);
 
             try
             {
                 unitOfWork.BeginTransaction();
 
-                var usuario = usuariosServico.Editar(id,comando);
+                var usuario = usuariosServico.Editar(id, comando);
 
                 unitOfWork.Commit();
 
@@ -117,6 +117,13 @@ namespace ChatZapfy.Aplicacao.Usuarios.Servicos
             IList<Usuario> usuarios = usuariosServico.RecuperarUsuariosPorConversa(request.IdConversa);
 
             return mapper.Map<List<UsuarioResponse>>(usuarios);
+        }
+
+        public UsuarioResponse RecuperarUsuarioLogin(UsuarioLoginRequest request)
+        {
+            var usuario = usuariosServico.RecuperarUsuarioLogin(request.Nome, request.Senha);
+
+            return mapper.Map<UsuarioResponse>(usuario);
         }
     }
 }

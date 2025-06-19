@@ -11,5 +11,6 @@ namespace ChatZapfy.Dominio.Usuarios.Repositorios.Interfaces
     public interface IUsuariosRepositorio : IGenericoRepositorio<Usuario>
     {
         IQueryable<Usuario> Filtrar(UsuarioListarFiltro filtro);
+        Usuario RecuperarUsuarioLogin(string nome, string senha);
     }
 }

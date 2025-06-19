@@ -44,7 +44,6 @@ public class MensagensController : ControllerBase
         return Ok(response);
     }
 
-
     /// <summary>
     /// Adiciona uma nova mensagem
     /// </summary>

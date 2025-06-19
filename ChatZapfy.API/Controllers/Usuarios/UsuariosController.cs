@@ -35,6 +35,19 @@ namespace ChatZapfy.API.Usuarios
             return Ok(response);
         }
 
+        /// <summary>
+        /// Recupera um usuário por login
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpPost("autenticacoes-usuarios")]
+        public ActionResult<UsuarioResponse> AutenticarUsuario([FromBody] UsuarioLoginRequest request)
+        {
+            UsuarioResponse response = usuariosAppServico.RecuperarUsuarioLogin(request);
+
+            return Ok(response);
+        }
+
 
         /// <summary>
         /// Adiciona um novo usuário

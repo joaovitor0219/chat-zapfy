@@ -20,22 +20,22 @@ namespace ChatZapfy.Infra.ConversasUsuarios.Repositorios
         {
             var query = Query();
 
-            if(filtro.IdConversa.HasValue)
+            if (filtro.IdConversa.HasValue)
             {
                 query = query.Where(x => x.Conversa.Id == filtro.IdConversa.Value);
             }
 
-            if(filtro.IdUsuario.HasValue)
+            if (filtro.IdUsuario.HasValue)
             {
                 query = query.Where(x => x.Usuario.Id == filtro.IdUsuario.Value);
             }
 
-            if(filtro.Id.HasValue)
+            if (filtro.Id.HasValue)
             {
                 query = query.Where(x => x.Id == filtro.Id.Value);
             }
 
-            if(filtro.DataInclusao.HasValue)
+            if (filtro.DataInclusao.HasValue)
             {
                 query = query.Where(x => x.DataInclusao == filtro.DataInclusao.Value);
             }
@@ -46,6 +46,13 @@ namespace ChatZapfy.Infra.ConversasUsuarios.Repositorios
         public IList<ConversaUsuario> RecuperarConversasUsuariosPorConversa(int idConversa)
         {
             IList<ConversaUsuario> conversaUsuarios = Query().Where(x => x.Conversa.Id == idConversa).ToList();
+
+            return conversaUsuarios;
+        }
+        
+        public IList<ConversaUsuario> RecuperarConversasUsuariosPorUsuario(int idUsuario)
+        {
+            IList<ConversaUsuario> conversaUsuarios = Query().Where(x => x.Usuario.Id == idUsuario).ToList();
 
             return conversaUsuarios;
         }

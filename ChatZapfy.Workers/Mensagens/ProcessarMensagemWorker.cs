@@ -63,6 +63,11 @@ namespace ChatZapfy.Workers.Mensagens
                                     {
                                         await mensagensAppServico.InserirMensagens(message.Body);
                                     });
+
+                                    await amazonSQS.DeleteMessageAsync(config.Value.QueueUrl, message.ReceiptHandle);
+
+                                    logger.LogInformation("<{EventoId}> - {Mensagem}.", "ProcessarMensagemWorker", "Mensagem processada e excluída");
+
                                 }
                                 catch (RegraDeNegocioExcecao ex)
                                 {
@@ -71,8 +76,6 @@ namespace ChatZapfy.Workers.Mensagens
                                     await amazonSQS.DeleteMessageAsync(config.Value.QueueUrl, message.ReceiptHandle);
 
                                 }
-                                
-                                logger.LogInformation("<{EventoId}> - {Mensagem}.", "ProcessarMensagemWorker", "Mensagem processada e excluída");
 
                             }
                         }

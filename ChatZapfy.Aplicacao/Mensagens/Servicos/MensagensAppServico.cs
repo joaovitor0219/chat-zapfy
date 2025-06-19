@@ -56,9 +56,9 @@ public class MensagensAppServico : IMensagensAppServico
 
             logger.LogInformation("<{EventoId}> - {Mensagem}", "PublicarNaFilaAws", "Mensagem publicada na fila");
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
-            logger.LogError(ex, "<{EventoId} {Mensagem}>","PublicarNaFilaAws", "Erro ao publicar mensagem na fila");
+            logger.LogError(ex, "<{EventoId} {Mensagem}>", "PublicarNaFilaAws", "Erro ao publicar mensagem na fila");
 
             throw;
         }
@@ -77,9 +77,9 @@ public class MensagensAppServico : IMensagensAppServico
 
             unitOfWork.Commit();
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
-            logger.LogError(ex, "<{EventoId} {Mensagem}>","InserirMensagens", "Erro ao processar e inserir mensagem");
+            logger.LogError(ex, "<{EventoId} {Mensagem}>", "InserirMensagens", "Erro ao processar e inserir mensagem");
 
             unitOfWork.Rollback();
 

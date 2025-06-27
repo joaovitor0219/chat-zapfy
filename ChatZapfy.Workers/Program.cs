@@ -7,6 +7,7 @@ using ChatZapfy.Dominio.ConfiguracoesAws;
 using ChatZapfy.Dominio.Usuarios.Servicos;
 using ChatZapfy.Infra.Usuarios.Mapeamentos;
 using ChatZapfy.Infra.Usuarios.Repositorios;
+using ChatZapfy.Workers.Consumers;
 using ChatZapfy.Workers.Factorys;
 using ChatZapfy.Workers.Listeners;
 using ChatZapfy.Workers.Mensagens;
@@ -51,6 +52,7 @@ builder.Services.AddControllers();
 builder.Services.AddSingleton<IJobFactory, ScheduledJobFactory>();
 builder.Services.AddSingleton<IJobListener, LogsJobListener>();
 builder.Services.AddTransient<ProcessarMensagemWorker>();
+builder.Services.AddHostedService<MensagemConsumer>();
 
 
 builder.Services.Configure<AwsConfig>(builder.Configuration.GetSection("AwsConfig"));

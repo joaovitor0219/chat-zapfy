@@ -7,6 +7,7 @@ using ChatZapfy.DataTransfer.Mensagens.Requests;
 using ChatZapfy.DataTransfer.Mensagens.Requests.Requests;
 using ChatZapfy.DataTransfer.Mensagens.Responses.Responses;
 using ChatZapfy.Dominio.Mensagens.Entidades;
+using ChatZapfy.Dominio.Mensagens.Producer.Interfaces;
 using ChatZapfy.Dominio.Mensagens.Publisher.Interfaces;
 using ChatZapfy.Dominio.Mensagens.Repositorios.Filtros;
 using ChatZapfy.Dominio.Mensagens.Repositorios.Interfaces;
@@ -23,6 +24,7 @@ public class MensagensAppServico : IMensagensAppServico
     private readonly IMapper mapper;
     private readonly IUnitOfWork unitOfWork;
     private readonly IPublisherFilaRepositorio publisherFilaRepositorio;
+    private readonly IMensagemProducer mensagemProducer;
     private readonly ILogger<MensagensAppServico> logger;
 
     public MensagensAppServico(
@@ -31,7 +33,8 @@ public class MensagensAppServico : IMensagensAppServico
         IMapper mapper,
         IUnitOfWork unitOfWork,
         IPublisherFilaRepositorio publisherFilaRepositorio,
-        ILogger<MensagensAppServico> logger)
+        ILogger<MensagensAppServico> logger,
+        IMensagemProducer mensagemProducer)
     {
         this.mensagensServico = mensagensServico;
         this.mensagensRepositorio = mensagensRepositorio;
@@ -39,6 +42,7 @@ public class MensagensAppServico : IMensagensAppServico
         this.unitOfWork = unitOfWork;
         this.publisherFilaRepositorio = publisherFilaRepositorio;
         this.logger = logger;
+        this.mensagemProducer = mensagemProducer;
     }
 
     public async Task PublicarNaFilaAws(MensagemRequest request)
@@ -52,7 +56,9 @@ public class MensagensAppServico : IMensagensAppServico
                 Conteudo = request.Conteudo
             };
 
-            await publisherFilaRepositorio.PublicarAsync(comando);
+            // await publisherFilaRepositorio.PublicarAsync(comando);
+
+            await mensagemProducer.PublicarMensagemConsumer(comando);
 
             logger.LogInformation("<{EventoId}> - {Mensagem}", "PublicarNaFilaAws", "Mensagem publicada na fila");
         }

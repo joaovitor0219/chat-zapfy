@@ -18,6 +18,8 @@ using NHibernate;
 using Amazon.Extensions.NETCore.Setup;
 using ISession = NHibernate.ISession;
 using ChatZapfy.API.Hubs;
+using ChatZapfy.Dominio.Mensagens.Producer.Interfaces;
+using ChatZapfy.Infra.Mensagens.Producer;
 
 public class Program
 {
@@ -150,6 +152,8 @@ public class Program
                 .Mappings(x => x.FluentMappings.AddFromAssemblyOf<UsuariosMap>())
                 .BuildSessionFactory();
         });
+
+        services.AddSingleton<IMensagemProducer, MensagemProducer>();
 
         services.AddScoped<NHibernate.ISession>(factory => factory.GetService<ISessionFactory>()!.OpenSession());
         services.AddScoped<ITransaction>(factory => factory.GetService<ISession>()!.BeginTransaction());

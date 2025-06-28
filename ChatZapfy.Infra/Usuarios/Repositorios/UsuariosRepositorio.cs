@@ -53,6 +53,5 @@ namespace ChatZapfy.Infra.Usuarios.Repositorios
 
             return query.Where(x => x.Nome == nome && x.Senha == senha).FirstOrDefault();
         }
-
     }
 }

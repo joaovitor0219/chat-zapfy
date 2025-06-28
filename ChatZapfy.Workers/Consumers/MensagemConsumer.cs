@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using ChatZapfy.Aplicacao.Notificacoes.Servicos.Interfaces;
 using ChatZapfy.Dominio.Mensagens.Producer.Comandos;
+using ChatZapfy.Dominio.Mensagens.Servicos.Comandos;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
@@ -14,8 +16,14 @@ namespace ChatZapfy.Workers.Consumers
     {
         private const string Exchange = "chat-mensagens";
         private const string QueueName = "fila-mensagem-consumer";
+        private readonly INotificacoesAppServico notificacoesAppServico;
 
-        protected override Task ExecuteAsync(CancellationToken stoppingToken)
+        public MensagemConsumer(INotificacoesAppServico notificacoesAppServico)
+        {
+            this.notificacoesAppServico = notificacoesAppServico;
+        }
+
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             var factory = new ConnectionFactory() { HostName = "localhost" };
             var connection = factory.CreateConnection();
@@ -26,13 +34,15 @@ namespace ChatZapfy.Workers.Consumers
             model.QueueBind(QueueName, Exchange, "");
 
             var consumer = new EventingBasicConsumer(model);
-            consumer.Received += (model, ea) =>
+            consumer.Received += async (model, ea) =>
             {
                 var body = ea.Body.ToArray();
                 var json = Encoding.UTF8.GetString(body);
-                var mensagem = JsonSerializer.Deserialize<MensagemRabbitMQComando>(json);
+                var mensagem = JsonSerializer.Deserialize<MensagemComando>(json);
 
-                Console.WriteLine($"📥 Mensagem recebida: {mensagem?.Nome} disse: {mensagem?.Conteudo}");
+                await notificacoesAppServico.CriarNotificaoAsync();
+
+                Console.WriteLine($"Mensagem recebida: Usuario {mensagem?.IdUsuario} disse: {mensagem?.Conteudo}");
             };
             model.BasicConsume(QueueName, autoAck: true, consumer: consumer);
 

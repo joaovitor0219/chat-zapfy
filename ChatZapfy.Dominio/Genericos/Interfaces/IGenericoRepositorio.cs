@@ -16,6 +16,7 @@ namespace ChatZapfy.Dominio.Genericos.Interfaces
         PaginacaoConsulta<T> Listar(IQueryable<T> query, int qt, int pg, string cpOrd, TipoOrdenacaoEnum tpOrd);
         IQueryable<T> Query();
         void Inserir(IEnumerable<T> entidades);
+        Task InserirVariasAsync(IEnumerable<T> entidades);
         Task InserirAsync(T entidade);
     }
 }

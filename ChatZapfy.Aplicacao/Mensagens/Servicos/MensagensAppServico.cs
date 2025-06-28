@@ -56,7 +56,7 @@ public class MensagensAppServico : IMensagensAppServico
                 Conteudo = request.Conteudo
             };
 
-            // await publisherFilaRepositorio.PublicarAsync(comando);
+            await publisherFilaRepositorio.PublicarAsync(comando);
 
             await mensagemProducer.PublicarMensagemConsumer(comando);
 

@@ -14,40 +14,36 @@ namespace ChatZapfy.Workers.Consumers
 {
     public class MensagemConsumer : BackgroundService
     {
-        private const string Exchange = "chat-mensagens";
-        private const string QueueName = "fila-mensagem-consumer";
-        private readonly INotificacoesAppServico notificacoesAppServico;
-
-        public MensagemConsumer(INotificacoesAppServico notificacoesAppServico)
-        {
-            this.notificacoesAppServico = notificacoesAppServico;
-        }
-
-        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+        private const string Exchange = "chat-topico";
+        private readonly string[] Topicos = ["mensagem.info", "mensagem.warn"];
+        protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
             var factory = new ConnectionFactory() { HostName = "localhost" };
             var connection = factory.CreateConnection();
             var model = connection.CreateModel();
 
-            model.ExchangeDeclare(Exchange, ExchangeType.Fanout, durable: true);
-            model.QueueDeclare(QueueName, durable: false, exclusive: false, autoDelete: false);
-            model.QueueBind(QueueName, Exchange, "");
+            model.ExchangeDeclare(Exchange, ExchangeType.Topic, durable: true);
+
+            var queueName = model.QueueDeclare().QueueName;
+
+            foreach (var routingKey in Topicos)
+            {
+                model.QueueBind(queue: queueName, exchange: Exchange, routingKey: routingKey);
+            }
 
             var consumer = new EventingBasicConsumer(model);
-            consumer.Received += async (model, ea) =>
+            consumer.Received += (ch, ea) =>
             {
                 var body = ea.Body.ToArray();
-                var json = Encoding.UTF8.GetString(body);
-                var mensagem = JsonSerializer.Deserialize<MensagemComando>(json);
+                var message = Encoding.UTF8.GetString(body);
+                var routingKey = ea.RoutingKey;
 
-                await notificacoesAppServico.CriarNotificaoAsync();
-
-                Console.WriteLine($"Mensagem recebida: Usuario {mensagem?.IdUsuario} disse: {mensagem?.Conteudo}");
+                Console.WriteLine($"[TOPICO: {routingKey}] Mensagem recebida: {message}");
             };
-            model.BasicConsume(QueueName, autoAck: true, consumer: consumer);
+
+            model.BasicConsume(queue: queueName, autoAck: true, consumer: consumer);
 
             return Task.CompletedTask;
-
         }
     }
 }

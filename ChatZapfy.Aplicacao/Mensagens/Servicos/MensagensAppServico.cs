@@ -26,6 +26,7 @@ public class MensagensAppServico : IMensagensAppServico
     private readonly IPublisherFilaRepositorio publisherFilaRepositorio;
     private readonly IMensagemProducer mensagemProducer;
     private readonly ILogger<MensagensAppServico> logger;
+    private const string routingKey = "mensagem.info";
 
     public MensagensAppServico(
         IMensagensServico mensagensServico,
@@ -56,9 +57,9 @@ public class MensagensAppServico : IMensagensAppServico
                 Conteudo = request.Conteudo
             };
 
-            await publisherFilaRepositorio.PublicarAsync(comando);
+            // await publisherFilaRepositorio.PublicarAsync(comando);
 
-            await mensagemProducer.PublicarMensagemConsumer(comando);
+            await mensagemProducer.PublicarMensagemConsumer(comando, routingKey);
 
             logger.LogInformation("<{EventoId}> - {Mensagem}", "PublicarNaFilaAws", "Mensagem publicada na fila");
         }

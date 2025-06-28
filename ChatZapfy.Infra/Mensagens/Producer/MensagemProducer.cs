@@ -14,7 +14,7 @@ namespace ChatZapfy.Infra.Mensagens.Producer
         private readonly IConnection connection;
         private readonly IModel model;
 
-        private const string Exchange = "chat-mensagens";
+        private const string Exchange = "chat-topico";
 
         public MensagemProducer()
         {
@@ -25,14 +25,14 @@ namespace ChatZapfy.Infra.Mensagens.Producer
             model = connection.CreateModel();
         }
 
-        public Task PublicarMensagemConsumer(MensagemComando comando)
+        public Task PublicarMensagemConsumer(MensagemComando comando, string routingKey)
         {
             var mensagem = JsonSerializer.Serialize(comando);
             var body = Encoding.UTF8.GetBytes(mensagem);
 
             model.BasicPublish(
                 exchange: Exchange,
-                routingKey: "",
+                routingKey: routingKey,
                 basicProperties: null,
                 body: body
             );

@@ -9,6 +9,6 @@ namespace ChatZapfy.Dominio.Mensagens.Producer.Interfaces
 {
     public interface IMensagemProducer
     {
-        Task PublicarMensagemConsumer(MensagemComando comando);
+        Task PublicarMensagemConsumer(MensagemComando comando, string routingKey);
     }
 }

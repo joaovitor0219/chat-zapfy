@@ -1,5 +1,5 @@
-using ChatZapfy.Dominio.Uteis;
-using ChatZapfy.Dominio.Uteis.Enumeradores;
+using Autoglass.Autoplay.Dominio.Util.Filtros;
+using Autoglass.Autoplay.Dominio.Util.Filtros.Enumeradores;
 
 namespace ChatZapfy.Dominio.Notificacoes.Repositorios.Filtros;
 

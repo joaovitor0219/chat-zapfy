@@ -80,5 +80,15 @@ namespace ChatZapfy.Infra.Genericos
         {
             await session.SaveAsync(entidade);
         }
+
+        public Task InserirVariasAsync(IEnumerable<T> entidades)
+        {
+            foreach (T entidade in entidades)
+            {
+                session.Save(entidade);
+            }
+
+            return Task.CompletedTask;
+        }
     }
 }

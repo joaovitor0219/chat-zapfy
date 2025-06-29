@@ -12,7 +12,6 @@ public class NotificacaoMap : ClassMap<Notificacao>
         Id(x => x.Id).Column("ID");
         References(x => x.Conversa).Column("IDCONVERSA");
         References(x => x.Usuario).Column("IDUSUARIO");
-        References(x => x.Mensagem).Column("IDMENSAGEM");
         Map(x => x.DataCriacao).Column("DATACRIACAO");
         Map(x => x.Visualizada).Column("VISUALIZADA");
     }

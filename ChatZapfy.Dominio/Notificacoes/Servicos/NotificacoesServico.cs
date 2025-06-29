@@ -34,13 +34,11 @@ public class NotificacoesServico : INotificacoesServico
 
     public Notificacao Instanciar(NotificacaoComando comando)
     {
-        Mensagem mensagem = mensagensServico.Validar(comando.IdMensagem);
-
         Conversa conversa = conversasServico.Validar(comando.IdConversa);
 
         Usuario usuario = usuariosServico.Validar(comando.IdUsuario);
 
-        Notificacao notificacao = new Notificacao(usuario, mensagem, conversa, false);
+        Notificacao notificacao = new Notificacao(usuario, conversa, false);
 
         return notificacao;
     }
@@ -48,8 +46,6 @@ public class NotificacoesServico : INotificacoesServico
     public async Task CriarNotificaoAsync(NotificacaoComando comando)
     {
         Conversa conversa = conversasServico.Validar(comando.IdConversa);
-
-        Mensagem mensagem = mensagensServico.Validar(comando.IdMensagem);
 
         IList<ConversaUsuario> usuariosNaConversa = conversasUsuariosServico.RecuperarConversaUsuarioPorConversa(comando.IdConversa);
 
@@ -59,7 +55,7 @@ public class NotificacoesServico : INotificacoesServico
 
         foreach (var conversaUsuario in usuariosParaNotificar)
         {
-            Notificacao notificacao = new Notificacao(conversaUsuario.Usuario, mensagem, conversa, comando.Visualizada);
+            Notificacao notificacao = new Notificacao(conversaUsuario.Usuario, conversa, comando.Visualizada);
 
             notificacoes.Add(notificacao);
         }

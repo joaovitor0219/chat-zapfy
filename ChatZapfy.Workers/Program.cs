@@ -1,6 +1,8 @@
 
 using System.Reflection.Metadata;
 using Amazon.SQS;
+using ChatZapfy.Aplicacao.Notificacoes.Servicos;
+using ChatZapfy.Aplicacao.Notificacoes.Servicos.Interfaces;
 using ChatZapfy.Aplicacao.Usuarios.Profiles;
 using ChatZapfy.Aplicacao.Usuarios.Servicos;
 using ChatZapfy.Dominio.ConfiguracoesAws;

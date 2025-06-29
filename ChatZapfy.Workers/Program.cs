@@ -93,7 +93,7 @@ IJobDetail publicarMensagemWorker = JobBuilder.Create<ProcessarMensagemWorker>()
     .StoreDurably()
     .Build();
 
-// ITrigger triggerPublicarMensagemWorker = TriggerBuilder.Create().Build();
+ITrigger triggerPublicarMensagemWorker = TriggerBuilder.Create().Build();
 await scheduler.AddJob(publicarMensagemWorker, true);
 
 await scheduler.Start();
